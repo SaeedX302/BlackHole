@@ -1,1 +1,61 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><style>body{margin:0;padding:0;overflow:hidden;background:black}.blurred-site{position:fixed;top:0;left:0;width:100%;height:100%;filter:blur(50px);z-index:1;background:black}.blurred-site iframe{width:100%;height:100%;border:none}.debug-icon{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;color:rgba(255,255,255,0.2);font-size:40px}</style></head><body><div class="blurred-site"><iframe src="https://9112000.github.io/BlackHole/r/index.html"></iframe></div><div class="debug-icon"><i class="fas fa-bug"></i></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BlackHole Protocol — Initiated</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="start-screen" class="center-screen">
+    <button id="start-btn" class="start-btn">START</button>
+  </div>
+
+  <div id="terminal-screen" class="terminal-screen" style="display:none;">
+    <div id="terminal-output" class="terminal-output" aria-live="polite"></div>
+    <div id="loading-bar-container" class="loading-bar-container" style="display:none;">
+      <div id="loading-bar" class="loading-bar"></div>
+    </div>
+  </div>
+
+  <canvas id="glcanvas" style="display:none;"></canvas>
+  <div id="info" style="display:none;"></div>
+
+  <script id="fragShader" type="x-shader/x-fragment">
+    precision highp float;
+    uniform vec2 u_resolution;
+    uniform float u_time;
+    uniform vec2 u_mouse;
+    uniform float u_interaction;
+    float sphere(vec3 p, float r) { return length(p) - r; }
+    float scene(vec3 p) {
+      float time = u_time * (1.0 + u_interaction * 2.0);
+      float s = sphere(p - vec3(sin(time), cos(time), 0.0), 0.6);
+      s += 0.3 * sin(p.x * 5.0 + time) * cos(p.y * 5.0 + time);
+      return s;
+    }
+    vec3 getColor(float d, vec3 p) {
+      float glow = 1.0 / (d * d + 0.1);
+      return vec3(glow * 0.8, glow * 0.3, glow * 0.1);
+    }
+    void main() {
+      vec2 uv = (gl_FragCoord.xy / u_resolution.xy) * 2.0 - 1.0;
+      uv.x *= u_resolution.x / u_resolution.y;
+      vec3 ro = vec3(0.0, 0.0, -3.0);
+      vec3 rd = normalize(vec3(uv, 1.5));
+      vec3 color = vec3(0.0);
+      float t = 0.0;
+      for (int i = 0; i < 64; i++) {
+        vec3 p = ro + rd * t;
+        float d = scene(p);
+        if (d < 0.01) break;
+        color += getColor(d, p) * 0.02;
+        t += d * 0.5;
+      }
+      gl_FragColor = vec4(color, 1.0);
+    }
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>
