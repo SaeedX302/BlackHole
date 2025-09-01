@@ -1,0 +1,64 @@
+:root {
+  --bg: #050505;
+  --neon: #39ff14;
+  --neon-2: #00ffd6;
+  --terminal-bg: #000;
+  --terminal-width: min(900px, 90vw);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; background: var(--bg); font-family: "Fira Mono", "Courier New", monospace; color: var(--neon); -webkit-font-smoothing: antialiased; }
+.center-screen { height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+
+.start-btn {
+  font-size: 2rem; padding: 1rem 2rem; border-radius: 10px; border: none; cursor: pointer;
+  background: linear-gradient(90deg, rgba(57,255,20,0.12), rgba(0,0,0,0.4));
+  color: var(--neon); box-shadow: 0 0 30px rgba(57,255,20,0.12), inset 0 -4px 20px rgba(0,0,0,0.6);
+  letter-spacing: 2px; transition: transform .12s ease, box-shadow .12s ease;
+}
+.start-btn:active { transform: translateY(1px); }
+.start-btn:hover { box-shadow: 0 0 48px rgba(57,255,20,0.22), inset 0 -4px 20px rgba(0,0,0,0.6); }
+
+.terminal-screen { padding: 30px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; }
+
+.terminal-output {
+  width: var(--terminal-width); min-height: 260px; padding: 28px; border-radius: 12px; background: linear-gradient(180deg,#000 0%, #060606 100%);
+  box-shadow: 0 0 60px rgba(57,255,20,0.06), inset 0 0 18px rgba(57,255,20,0.02); font-size: 1.05rem; line-height: 1.45; overflow: hidden;
+  position: relative; color: var(--neon);
+}
+
+.hi-line {
+  display: block; font-size: 1.15rem; font-weight: 700; letter-spacing: 1px; color: var(--neon);
+  text-shadow: 0 0 8px rgba(57,255,20,0.7), 0 0 24px rgba(0,255,214,0.08); margin-bottom: 12px;
+}
+.term-line { display: block; white-space: pre-wrap; opacity: 0.98; }
+
+.loading-bar-container {
+  width: var(--terminal-width); height: 18px; border-radius: 10px; background: #0b0b0b; overflow: hidden;
+  box-shadow: 0 0 18px rgba(57,255,20,0.08), inset 0 0 12px rgba(0,0,0,0.6);
+}
+.loading-bar {
+  width: 0%; height: 100%;
+  background: linear-gradient(90deg, var(--neon), var(--neon-2));
+  box-shadow: 0 0 30px rgba(57,255,20,0.28), inset 0 -4px 14px rgba(0,0,0,0.5);
+  border-radius: 10px;
+}
+
+/* Styles for BlackHole Canvas (from r/index.html) */
+canvas#glcanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: black;
+}
+
+div#info {
+  position: absolute;
+  top: 10px; left: 10px;
+  background: transparent;
+  color: white;
+  font-family: monospace;
+  pointer-events: none;
+  z-index: 10;
+  white-space: pre-line;
+  }
