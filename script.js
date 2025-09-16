@@ -1,6 +1,9 @@
 // script.js
 const startBtn = document.getElementById('start-btn');
 const startScreen = document.getElementById('start-screen');
+const warningPopup = document.getElementById('warning-popup');
+const closeBtn = document.getElementById('close-btn');
+const countdownEl = document.getElementById('countdown');
 const terminalScreen = document.getElementById('terminal-screen');
 const terminalOutput = document.getElementById('terminal-output');
 const loadingBarContainer = document.getElementById('loading-bar-container');
@@ -75,13 +78,34 @@ async function playSequence() {
   render(); // <<< THIS IS THE MAGIC KEY!
 }
 
+function showWarningPopup() {
+  warningPopup.style.display = 'flex';
+  let countdown = 3;
+  countdownEl.textContent = countdown;
+  const timer = setInterval(() => {
+    countdown--;
+    countdownEl.textContent = countdown;
+    if (countdown <= 0) {
+      clearInterval(timer);
+      countdownEl.style.display = 'none';
+      closeBtn.style.display = 'block';
+    }
+  }, 1000);
+}
+
 // Hook up start button
 startBtn.addEventListener('click', async () => {
   startScreen.style.display = 'none';
+  showWarningPopup();
+});
+
+// Hook up close button
+closeBtn.addEventListener('click', () => {
+  warningPopup.style.display = 'none';
   terminalScreen.style.display = 'flex';
   loadingBarContainer.style.display = 'none';
   loadingBar.style.width = '0%';
-  await playSequence();
+  playSequence();
 });
 
 
@@ -219,10 +243,10 @@ function render() {
   let fps = 0;
   let frameTimes = [];
   const frameTimeHistoryLength = 60;
-  const MIN_INSTANCES = 1000000; // <-- Increased from 500,000
+  const MIN_INSTANCES = 2000000; // <-- Increased from 1,000,000
 
   function updateInstances(currentTimeSec) {
-    const instanceCount = MIN_INSTANCES * Math.pow(2, currentTimeSec * 0.5); // <-- Increased from 0.4
+    const instanceCount = MIN_INSTANCES * Math.pow(2, currentTimeSec * 0.6); // <-- Increased from 0.5
     instances = [];
     for (let i = 0; i < instanceCount; i++) {
       let offset = currentTimeSec - (i * 0.05);
