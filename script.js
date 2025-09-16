@@ -151,7 +151,6 @@ function render() {
     const volume = 0.1 + (1 - (clampedFPS / maxFPS)) * 0.4;
     gainNode.gain.value = volume;
     oscillator.connect(gainNode);
-    oscillator.start();
     oscillator.stop(audioContext.currentTime + 0.05);
   }
 
@@ -220,10 +219,10 @@ function render() {
   let fps = 0;
   let frameTimes = [];
   const frameTimeHistoryLength = 60;
-  const MIN_INSTANCES = 41824;
+  const MIN_INSTANCES = 1000000; // <-- Increased from 500,000
 
   function updateInstances(currentTimeSec) {
-    const instanceCount = MIN_INSTANCES * Math.pow(2, currentTimeSec * 0.2);
+    const instanceCount = MIN_INSTANCES * Math.pow(2, currentTimeSec * 0.5); // <-- Increased from 0.4
     instances = [];
     for (let i = 0; i < instanceCount; i++) {
       let offset = currentTimeSec - (i * 0.05);
