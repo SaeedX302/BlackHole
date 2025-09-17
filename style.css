@@ -73,6 +73,8 @@ html, body { height: 100%; margin: 0; background: var(--bg); font-family: "Fira 
   color: #fff;
   box-shadow: 0 0 20px rgba(255,77,77,0.4);
   transition: transform .12s ease, box-shadow .12s ease;
+  display: block; /* New: Make it a block-level element */
+  margin: 30px auto 0 auto; /* New: Center the button horizontally */
 }
 
 .close-btn:hover {

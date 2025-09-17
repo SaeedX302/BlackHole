@@ -78,25 +78,24 @@ async function playSequence() {
   render(); // <<< THIS IS THE MAGIC KEY!
 }
 
-function showWarningPopup() {
+async function showWarningPopup() {
   warningPopup.style.display = 'flex';
-  let countdown = 3;
-  countdownEl.textContent = countdown;
-  const timer = setInterval(() => {
-    countdown--;
-    countdownEl.textContent = countdown;
-    if (countdown <= 0) {
-      clearInterval(timer);
-      countdownEl.style.display = 'none';
-      closeBtn.style.display = 'block';
-    }
-  }, 1000);
+  countdownEl.textContent = '3';
+  await sleep(1000);
+  countdownEl.textContent = '2';
+  await sleep(1000);
+  countdownEl.textContent = '1';
+  await sleep(1000);
+  countdownEl.textContent = '0';
+  await sleep(500);
+  countdownEl.style.display = 'none';
+  closeBtn.style.display = 'block';
 }
 
 // Hook up start button
 startBtn.addEventListener('click', async () => {
   startScreen.style.display = 'none';
-  showWarningPopup();
+  await showWarningPopup();
 });
 
 // Hook up close button
@@ -243,10 +242,10 @@ function render() {
   let fps = 0;
   let frameTimes = [];
   const frameTimeHistoryLength = 60;
-  const MIN_INSTANCES = 2000000; // <-- Increased from 1,000,000
+  const MIN_INSTANCES = 4000000; // <-- Increased from 2,000,000
 
   function updateInstances(currentTimeSec) {
-    const instanceCount = MIN_INSTANCES * Math.pow(2, currentTimeSec * 0.6); // <-- Increased from 0.5
+    const instanceCount = MIN_INSTANCES * Math.pow(2, currentTimeSec * 0.7); // <-- Increased from 0.6
     instances = [];
     for (let i = 0; i < instanceCount; i++) {
       let offset = currentTimeSec - (i * 0.05);
