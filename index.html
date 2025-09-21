@@ -11,11 +11,11 @@
     <button id="start-btn" class="start-btn">START</button>
   </div>
 
-  <div id="warning-popup" class="warning-popup" style="display:none;">
+  <div id="warning-popup" class="warning-popup">
     <div class="popup-content">
       <h2>⚠️ DANGER: HIGH-PERFORMANCE TEST INITIATED! ⚠️</h2>
       <p>This is an extreme hardware stress test. It will push your CPU, GPU, and battery to their absolute limits. Proceed with caution. 🚨</p>
-      <div id="countdown" class="countdown"></div>
+      <div id="countdown" class="countdown">3</div>
       <button id="close-btn" class="close-btn" style="display:none;">CLOSE</button>
     </div>
   </div>
@@ -54,7 +54,7 @@
       vec3 rd = normalize(vec3(uv, 1.5));
       vec3 color = vec3(0.0);
       float t = 0.0;
-      for (int i = 0; i < 2048; i++) { // <-- Loop increased from 1024 to 2048
+      for (int i = 0; i < 1024; i++) { // <-- Loop increased from 512 to 1024
         vec3 p = ro + rd * t;
         float d = scene(p);
         if (d < 0.01) break;
